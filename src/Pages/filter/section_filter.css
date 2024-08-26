@@ -1,0 +1,63 @@
+.Filter_button {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  padding: 5px 10px 5px 10px;
+  opacity: 0px;
+  color: #00d3e1;
+  border: 2px solid #00d3e1;
+  border-radius: 8px;
+}
+
+.Filter_button:hover {
+  color: #ffffff;
+  background: #00d3e1;
+  transition: 0.2s;
+}
+.Filter_button1:hover {
+  color: #ffffff;
+  background: #00d3e1;
+  transition: 0.2s;
+}
+
+.Filter_button1 {
+  text-align: center;
+  display: flex;
+  margin-left: 5px;
+  margin-top: 2px;
+  justify-content: center;
+  padding: 5px 10px 5px 10px;
+  width: auto;
+  height: auto;
+  opacity: 0px;
+  color: #00d3e1;
+  border: 2px solid #00d3e1;
+  border-radius: 8px;
+}
+.felx_wrap {
+  flex-wrap: wrap;
+}
+
+.nefr {
+  width: 700px;
+}
+
+@media screen and (max-width: 1900px) {
+  .res {
+    padding: 0px 48px 0px 58px;
+  }
+}
+
+@media screen and (max-width: 1360px) {
+  .res {
+    padding: 0px 50px 0px 58px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .res {
+    padding: 0px 12px 0px 18px;
+  }
+}

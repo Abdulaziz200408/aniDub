@@ -1,0 +1,8 @@
+/* No specific CSS is required since Tailwind CSS handles most of the styling. */
+
+/* Ensure the image scales properly */
+img {
+  object-fit: cover;
+}
+
+/* Additional styles (if needed) */
