@@ -18,7 +18,8 @@ const Main = () => {
       {!isDashboard && <Filter />} {/* Islom */}
       {!isDashboard && <NewsCard />} {/* Islom */}
       {!isDashboard && <Cards />} {/* Abdulaziz */}
-      {/* {!isDashboard && <Footer />} Lobar */}
+      {!isDashboard && <Footer />}
+      {/* Lobar */}
       <Routes>
         <Route path="/dashboard" element={<AnidubDashboard />} />
         {/* Qo'shimcha routelarni shu yerga qo'shishingiz mumkin */}

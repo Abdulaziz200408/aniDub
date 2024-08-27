@@ -29,11 +29,10 @@ const Navbar = () => {
     localStorage.removeItem("password");
     setIsLoggedIn(false);
     setOpenProfileModal(false);
-    toast.success("Muvaffaqiyatli chiqdingiz!");
+    window.location.reload();
   };
 
   useEffect(() => {
-    // Load data from localStorage if user is already logged in
     const storedName = localStorage.getItem("name");
     const storedPhone = localStorage.getItem("phone");
     const storedPassword = localStorage.getItem("password");
@@ -48,20 +47,22 @@ const Navbar = () => {
 
   const handleSignUp = () => {
     if (name.length > 4 && phone.trim() !== "" && password.trim() !== "") {
-      // Save to localStorage
       localStorage.setItem("name", name);
       localStorage.setItem("phone", phone);
       localStorage.setItem("password", password);
 
-      // Update state
       setIsLoggedIn(true);
       setOpenSignModal(false);
-      toast.success("Ro'yxatdan muvaffaqiyatli o'tildi!");
     } else {
       toast.error(
         "Iltimos, barcha maydonlarni to'ldiring va ismingizni 4 harfdan ko'proq kiriting."
       );
     }
+    window.location.reload();
+    setName("");
+    setPhone("");
+    setPassword("");
+    setRepeatPassword("");
   };
 
   const openSignUpModal = () => setOpenSignModal(true);

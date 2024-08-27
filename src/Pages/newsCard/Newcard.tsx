@@ -133,7 +133,7 @@ const NewsCard = () => {
             </div>
           ))}
         </div>
-        <div className="border mt-5"></div>
+        <div className="border"></div>
       </div>
     </div>
   );

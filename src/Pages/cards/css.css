@@ -1,8 +1,90 @@
-/* No specific CSS is required since Tailwind CSS handles most of the styling. */
-
-/* Ensure the image scales properly */
+/* Image styling */
 img {
   object-fit: cover;
 }
 
-/* Additional styles (if needed) */
+/* Card container */
+.card {
+  position: relative;
+  overflow: hidden;
+  height: 315px;
+  border-radius: 0.5rem;
+  background-color: #1a202cbe;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  transition: background 0.7s ease, transform 0.5s ease;
+}
+
+/* Card image */
+.card img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+/* Card content */
+.card-content {
+  padding: 1rem;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: color 0.7s ease; /* Smooth color transition */
+}
+
+/* Heart icon */
+.card .icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 20px;
+}
+
+/* Hover effects */
+.card:hover {
+  background-color: #263042;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.card:hover p {
+  color: white !important;
+}
+
+.card:hover span {
+  color: white;
+}
+
+.card:hover .money {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.money {
+  color: white;
+  width: 70px !important;
+  height: 30px;
+  background: linear-gradient(to right, #68d391, #48bb78);
+  border-radius: 8px;
+}
+
+.border {
+  background-color: #00ccd9;
+  width: 100%;
+  height: 4px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+
+.card_subttile {
+  font-size: 14px;
+  color: #888;
+}
