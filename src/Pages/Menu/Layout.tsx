@@ -113,10 +113,15 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={openProfile}
-                className="flex items-center gap-2 px-4 py-2 text-teal-500 bg-gray-100 rounded-lg shadow-lg hover:bg-gray-200 transition-colors"
+                className="flex  profilButton"
               >
-                <img className="w-5 h-5" src={user} alt="Profile" />
-                Profil
+                <img style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  marginLeft: "10px",
+                }} src={user} alt="Profile" />
               </button>
             )}
           </div>
@@ -264,36 +269,37 @@ const Navbar = () => {
 
       {/* Profile Modal */}
       <Modal
-        className="custom-modal"
-        open={openProfileModal}
-        onCancel={closeProfile}
-        footer={null}
-        closeIcon={
-          <IoClose
-            style={{
-              color: "#00F0FF",
-            }}
-          />
-        }
-      >
-        <div className="p-4">
-          <h2 className="text-xl font-bold mb-4">Profil</h2>
-          <p>Ism: {name}</p>
-          <p>Telefon: {phone}</p>
-          <button
-            onClick={goToProfile}
-            className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-teal-600 transition-colors"
-          >
-            Profilga kirish
-          </button>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-red-600 transition-colors"
-          >
-            Chiqish
-          </button>
-        </div>
-      </Modal>
+  className="custom-modal"
+  open={openProfileModal}
+  onCancel={closeProfile}
+  footer={null}
+  closeIcon={
+    <IoClose
+      style={{
+        color: "#00F0FF",
+      }}
+    />
+  }
+>
+  <div className="p-4">
+    <h2 className="text-xl font-bold mb-4">Profil</h2>
+    <p>Ism: {name}</p>
+    <p>Telefon: {phone}</p>
+    <button
+      onClick={goToProfile}
+      className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-teal-600 transition-colors"
+    >
+      Profilga kirish
+    </button>
+    <button
+      onClick={handleLogout}
+      className="bg-red-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-red-600 transition-colors"
+    >
+      Chiqish
+    </button>
+  </div>
+</Modal>
+
     </nav>
   );
 };

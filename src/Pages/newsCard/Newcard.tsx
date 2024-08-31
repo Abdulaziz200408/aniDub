@@ -73,25 +73,11 @@ const NewsCard = () => {
   );
 
   return (
-    <div className="news-card-container flex justify-center mt-10">
+    <div className="news-card-container flex justify-center">
       <div className="container">
         {contextHolder}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">
-            YANGI MAVSUM - Animelar
-          </h2>
-          <div className="flex items-center gap-4">
-            <AiFillLeftCircle
-              className="text-blue-400 cursor-pointer hover:text-blue-600 transition-transform duration-300"
-              onClick={handlePrev}
-              size={31}
-            />
-            <FaCircleChevronRight
-              className="text-blue-400 cursor-pointer hover:text-blue-600 transition-transform duration-300"
-              onClick={handleNext}
-              size={26}
-            />
-          </div>
+        <div className="flex items-center justify-between ">
+      
         </div>
         <div className="border"></div>
         {/* Slider */}
@@ -133,6 +119,18 @@ const NewsCard = () => {
             </div>
           ))}
         </div>
+        <div className="flex items-center gap-4">
+            <AiFillLeftCircle
+              className="text-blue-400 cursor-pointer hover:text-blue-600 transition-transform duration-300"
+              onClick={handlePrev}
+              size={31}
+            />
+            <FaCircleChevronRight
+              className="text-blue-400 cursor-pointer hover:text-blue-600 transition-transform duration-300"
+              onClick={handleNext}
+              size={26}
+            />
+          </div>
         <div className="border"></div>
       </div>
     </div>

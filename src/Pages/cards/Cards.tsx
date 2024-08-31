@@ -85,20 +85,32 @@ const Cards: React.FC = () => {
     }
   };
 
+  // Sorting cards by the eye count and getting top 10
+  const topCards = [...cards]
+    .sort((a, b) => b.eye - a.eye)
+    .slice(0, 10);
+
   return (
     <div className="container mx-auto mt-10 px-4">
+      <h2 className="text-2xl font-bold mb-4">Top 10 Cards</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {cards.map((item) => (
-          <div onClick={() => eyeCount(item.id)} key={item.id} className="card">
-            <FaHeart
-              onClick={(e) => {
-                e.stopPropagation(); // To prevent card click event when heart icon is clicked
-                handleHeartClick(item.id);
-              }}
-              className={`icon ${
-                liked[item.id] && name ? "text-red-500" : "text-white"
-              } cursor-pointer`}
-            />
+        {topCards.map((item) => (
+          <div onClick={() => eyeCount(item.id)} key={item.id} className="card relative">
+            <div
+              className="absolute top-0 left-0 right-0 flex justify-between p-2"
+              style={{ zIndex: 10 }}
+            >
+              <button  className="card_data">{item.data}</button>
+              <FaHeart
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleHeartClick(item.id);
+                }}
+                className={`icon ${
+                  liked[item.id] && name ? "text-red-500" : "text-white"
+                } cursor-pointer`}
+              />
+            </div>
             <img
               src={item.img}
               alt={item.name}

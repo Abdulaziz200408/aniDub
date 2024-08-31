@@ -2,9 +2,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "tailwindcss/tailwind.css";
+import styles from "../styles/animation.module.css"; // CSS fayl Next.js usulida import qilindi
 
 interface Slide {
-  bacgroundImg: string;
+  backgroundImg: string;
   name: string;
   desc: string;
   img: string;
@@ -51,7 +52,7 @@ const Animation: React.FC = () => {
         <div className="relative w-full h-full">
           <img
             style={{ borderRadius: "20px" }}
-            src={slide.bacgroundImg}
+            src={slide.backgroundImg}
             alt={slide.name}
             className="w-full h-full object-cover rounded-lg"
           />
