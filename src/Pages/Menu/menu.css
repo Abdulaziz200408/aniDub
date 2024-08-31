@@ -152,11 +152,12 @@
   color: white;
 }
 
-.custom-modal {
+.modal_style {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 70px;
+  right: 50px;
   margin: 0;
   padding: 0;
-  max-width: 400px;
+  max-width: 200px;
+  min-height: 100px !important;
 }
