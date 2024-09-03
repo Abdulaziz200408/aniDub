@@ -1,0 +1,9 @@
+.subttile{
+    display: -webkit-box;
+    height: 100px;
+    line-height: 25px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

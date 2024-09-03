@@ -2,15 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Drawer, Input } from 'antd';
 import { IoHome, IoSendSharp } from 'react-icons/io5';
 import { FaPaperclip, FaSmile, FaCamera } from 'react-icons/fa';
-import '../filter/section_filter.css';
-import kirish from "../imgs/kiirsh.png";
 import axios from 'axios';
+import '../filter/section_filter.css';
+import kirish from '../imgs/kiirsh.png'
 
 interface Message {
   id: number;
   text: string;
-  sender: string; // Added to track who sent the message
+  sender: string;
   timestamp: string;
+  profileImg?: string;
 }
 
 const Filter: React.FC = () => {
@@ -20,7 +21,8 @@ const Filter: React.FC = () => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const loggedInUser = localStorage.getItem('name'); // Use this to determine message alignment
+  const loggedInUser = localStorage.getItem('name');
+  const profilImg = localStorage.getItem("profileImg") || "https://fdlc.org/wp-content/uploads/2021/01/157-1578186_user-profile-default-image-png-clipart.png.jpeg";
 
   useEffect(() => {
     const email = localStorage.getItem('name');
@@ -33,6 +35,7 @@ const Filter: React.FC = () => {
     }
   }, []);
 
+  // Har 2 soniyada yangilab turish
   useEffect(() => {
     const fetchMessages = () => {
       axios.get("https://7dcbce21f2149e98.mokky.dev/api")
@@ -45,11 +48,9 @@ const Filter: React.FC = () => {
     };
 
     fetchMessages();
+    const interval = setInterval(fetchMessages, 2000); // Poll every 2 seconds
 
-    // Poll for new messages every 5 seconds
-    const interval = setInterval(fetchMessages, 5000);
-
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
   useEffect(() => {
@@ -66,8 +67,9 @@ const Filter: React.FC = () => {
     if (message.trim() && loggedInUser) {
       const newMessage: Omit<Message, "id"> = {
         text: message,
-        sender: loggedInUser, // Use the logged-in user as the sender
+        sender: loggedInUser,
         timestamp: new Date().toLocaleTimeString(),
+        profileImg: profilImg,
       };
 
       axios.post("https://7dcbce21f2149e98.mokky.dev/api", newMessage)
@@ -76,7 +78,7 @@ const Filter: React.FC = () => {
           setMessage('');
         })
         .catch(error => {
-          console.error('There was an error sending the message:', error);
+          console.error('Xabar yuborishda xatolik:', error);
         });
     }
   };
@@ -91,7 +93,7 @@ const Filter: React.FC = () => {
   return (
     <div className="container mx-auto mt-10 p-0">
       <div className="button-group">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <button className="filter-button">Hamma anemelar</button>
           <button onClick={() => setOpen(true)} className="filter-button">Anime chat</button>
           <button className="filter-button">Anime edit</button>
@@ -105,112 +107,59 @@ const Filter: React.FC = () => {
         width={950}
         open={open}
         onClose={() => setOpen(false)}
+        className="responsive-drawer"
       >
         {isRegistered ? (
           <div className="modalHeader flex gap-5">
-            <div className="modal_leftHeader">
+            <div className="modal_leftHeader  hidden sm:block">
               <button className="mt-4">
                 <img
+                  className="rounded-full"
+                  src={profilImg}
+                  alt="Profile"
                   style={{
                     width: '50px',
                     height: '50px',
-                    borderRadius: '50%',
                   }}
-                  src="https://i.pinimg.com/564x/76/34/48/76344824fd1a24149ec6adddefc89778.jpg"
-                  alt="Profile"
                 />
               </button>
               <div
-                className="icon_hover"
-                style={{
-                  width: '100%',
-                  height: '10%',
-                  backgroundColor: 'red',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '10px',
-                  color: 'white',
-                  marginTop: '50px',
-                }}
+                className="icon_hover bg-red-500 flex justify-between items-center p-2 text-white mt-12"
               >
-                <IoHome
-                  style={{
-                    fontSize: '24px',
-                    marginLeft: '20px',
-                  }}
-                />
+                <IoHome className="ml-5 text-xl" />
               </div>
             </div>
             <div className="modalBody w-full mb-2">
               <div
-                style={{
-                  padding: '10px',
-                  width: '100%',
-                  height: '660px',
-                  borderRadius: '10px',
-                  position: 'relative',
-                  backgroundColor: '#F0F0F0',
-                  overflow: 'hidden',
-                }}
-                className="content"
+                className="content bg-gray-200 rounded-lg relative overflow-hidden"
+                style={{ height: '660px', padding: '10px' }}
               >
-                <div
-                  style={{
-                    height: '90%',
-                    overflowY: 'auto',
-                    paddingRight: '10px',
-                    paddingBottom: '40px',
-                    scrollbarWidth: 'none',
-                  }}
-                  className="scrollbar-hide"
-                >
+                <div className="scrollbar-hide overflow-y-auto pr-2 pb-10" style={{ height: '90%' }}>
                   {datamessage.map((item) => (
                     <div
                       key={item.id}
-                      style={{
-                        marginTop: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: item.sender === loggedInUser ? 'flex-end' : 'flex-start',
-                      }}
+                      className={`message flex flex-col ${item.sender === loggedInUser ? 'items-end' : 'items-start'} mt-2`}
                     >
                       {item.sender !== loggedInUser && (
-                      <div className=' flex items-center gap-1'>
+                        <div className='flex items-center gap-2'>
                           <img
-                          src="https://i.pinimg.com/564x/76/34/48/76344824fd1a24149ec6adddefc89778.jpg"
-                          alt="User"
-                          style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            marginRight: '10px',
-                          }}
-                        />
-                        <p>{item.sender}</p>
-                      </div>
+                            src={item.profileImg || profilImg}
+                            alt="User"
+                            className="rounded-full"
+                            style={{
+                              width: '40px',
+                              height: '40px',
+                            }}
+                          />
+                          <p>{item.sender}</p>
+                        </div>
                       )}
                       <div
-                        style={{
-                          backgroundColor: item.sender === loggedInUser ? '#B89EFF' : '#E0E0E0',
-                          borderRadius: '10px',
-                          padding: '10px',
-                          maxWidth: '70%',
-                          color: item.sender === loggedInUser ? 'white' : 'black',
-                          position: 'relative',
-                        }}
+                        className={`message-text rounded-lg p-3 ${item.sender === loggedInUser ? 'bg-purple-400 text-white' : 'bg-gray-300 text-black'} max-w-xs`}
                       >
                         {item.text}
                       </div>
-                      <span
-                        style={{
-                          display: 'block',
-                          fontSize: '10px',
-                          color: item.sender === loggedInUser ? 'lightgrey' : 'grey',
-                          textAlign: 'right',
-                          marginTop: '5px',
-                        }}
-                      >
+                      <span className={`text-xs mt-1 ${item.sender === loggedInUser ? 'text-gray-300' : 'text-gray-600'}`}>
                         {item.timestamp}
                       </span>
                     </div>
@@ -218,67 +167,29 @@ const Filter: React.FC = () => {
                   <div ref={messagesEndRef} />
                 </div>
                 <div
-                  className="bg-gray-600"
-                  style={{
-                    position: 'absolute',
-                    bottom: '20px',
-                    left: '15px',
-                    width: '96%',
-                  }}
+                  className="bg-gray-700 absolute bottom-5 left-4 right-4 p-2 rounded-lg flex items-center justify-between"
                 >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: '0',
-                      width: '100%',
-                      padding: '10px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      borderTop: '1px solid #e0e0e0',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '95%' }}>
-                      <FaPaperclip style={{ fontSize: '20px', cursor: 'pointer', color: "black" }} />
-                      <Input
-                        value={message}
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Type your message here..."
-                        style={{
-                          width: '99%',
-                          borderRadius: '20px',
-                          padding: '10px 15px',
-                          border: 'none',
-                          boxShadow: '0 1px 5px rgba(0, 0, 0, 0.1)',
-                          marginRight: '10px',
-                          color: "black",
-                          position: "relative"
-                        }}
-                      />
-                      <FaSmile style={{ fontSize: '20px', cursor: 'pointer', color: "black", position: "absolute", right: "110px" }} />
-                      <FaCamera style={{ fontSize: '20px', cursor: 'pointer', color: "black", position: "absolute", right: "80px" }} />
-                    </div>
-                    <button onClick={handleSendMessage}>
-                      <IoSendSharp className='text-3xl text-blue-600' />
-                    </button>
+                  <div className="flex items-center gap-3 w-full">
+                    <FaPaperclip className="text-xl text-black cursor-pointer" />
+                    <Input
+                      value={message}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Type your message here..."
+                      className="rounded-full p-3 w-full border-none shadow-sm text-black"
+                    />
+                    <FaSmile className="text-xl text-black cursor-pointer absolute right-20" />
+                    <FaCamera className="text-xl text-black cursor-pointer absolute right-12" />
                   </div>
+                  <button onClick={handleSendMessage}>
+                    <IoSendSharp className="text-3xl text-blue-600" />
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         ) : (
-          <div
-            style={{
-              padding: '10px',
-              width: '100%',
-              height: '660px',
-              borderRadius: '10px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <div className="flex justify-center items-center h-full w-full">
             <img src={kirish} alt="Registration" />
           </div>
         )}

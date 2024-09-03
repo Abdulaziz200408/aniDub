@@ -45,8 +45,6 @@ const Cards: React.FC = () => {
   const paid = (id: number) => {
     if (balans <= 0) {
       toast.error("Iltimos, balansingizni to'ldiring!");
-    } else {
-      toast.success("To'lov muvaffaqiyatli amalga oshirildi!");
     }
   };
 
@@ -85,16 +83,10 @@ const Cards: React.FC = () => {
     }
   };
 
-  // Sorting cards by the eye count and getting top 10
-  const topCards = [...cards]
-    .sort((a, b) => b.eye - a.eye)
-    .slice(0, 10);
-
   return (
-    <div className="container mx-auto mt-10 px-4">
-      <h2 className="text-2xl font-bold mb-4">Top 10 Cards</h2>
+    <div className="container mx-auto mt-10 ">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {topCards.map((item) => (
+        {cards.map((item) => (
           <div onClick={() => eyeCount(item.id)} key={item.id} className="card relative">
             <div
               className="absolute top-0 left-0 right-0 flex justify-between p-2"
@@ -120,7 +112,7 @@ const Cards: React.FC = () => {
             />
             <div className="card-content">
               <div>
-                <h2 className="text-lg font-semibold mb-2 truncate">
+                <h2 className="text-lg font-semibold mb-2 ">
                   {item.name}
                 </h2>
                 <div className="flex items-center justify-between">
@@ -141,6 +133,16 @@ const Cards: React.FC = () => {
           </div>
         ))}
       </div>
+    <div className=" flex justify-center mt-5">
+    <button  style={{
+      width: "150px",
+      backgroundColor: "#4CAF50",
+      color: "white",
+      padding: "10px 20px",
+      borderRadius: "5px",
+      cursor: "pointer"
+    }}>Yana yuklash</button>
+    </div>
       <div className="border"></div>
       <ToastContainer />
     </div>

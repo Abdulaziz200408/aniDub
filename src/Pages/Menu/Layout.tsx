@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaUserSlash } from "react-icons/fa";
 import { TbLogin2 } from "react-icons/tb";
-import logo from "../imgs/aniDub_logo.png";
+import logo from "../imgs/aniDub_logo.png"; // Import local logo image
 import bars from "../imgs/bars.png";
 import user from "../imgs/user.png";
 import { toast, ToastContainer } from "react-toastify";
 import "./menu.css";
 import { RiSearchLine } from "react-icons/ri";
-import axios from "axios";
 import { Modal, Button } from "antd";
 import { IoClose } from "react-icons/io5";
 
@@ -27,6 +26,7 @@ const Navbar = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("phone");
     localStorage.removeItem("password");
+    localStorage.removeItem("profileImg"); // Remove profileImg as well
     setIsLoggedIn(false);
     setOpenProfileModal(false);
     window.location.reload();
@@ -76,6 +76,9 @@ const Navbar = () => {
     navigate("/profil");
   };
 
+  // Get profile image from localStorage or fallback to default logo
+  const profilImg = localStorage.getItem("profileImg") || user;
+
   return (
     <nav className="">
       <div className="px-4">
@@ -84,7 +87,7 @@ const Navbar = () => {
             <img
               onClick={() => navigate("/Menu")}
               className="w-32 cursor-pointer"
-              src={logo}
+              src={logo} // Use local logo image
               alt="Logo"
             />
           </div>
@@ -113,15 +116,19 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={openProfile}
-                className="flex  profilButton"
+                className="flex profilButton"
               >
-                <img style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  marginLeft: "10px",
-                }} src={user} alt="Profile" />
+                <img
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    marginLeft: "10px",
+                  }}
+                  src={profilImg}
+                  alt="Profile"
+                />
               </button>
             )}
           </div>
@@ -169,7 +176,7 @@ const Navbar = () => {
             >
               <img
                 className="w-5 h-5 inline-block mr-2"
-                src={user}
+                src={profilImg}
                 alt="Profile"
               />
               Profil
@@ -269,40 +276,37 @@ const Navbar = () => {
 
       {/* Profile Modal */}
       <Modal
-  className="modal_style"
-  open={openProfileModal}
-  onCancel={closeProfile}
-  footer={null}
-  closeIcon={
-    <IoClose
-      style={{
-        color: "#00F0FF",
-      }}
-    />
-  }
->
-  <div className="p-4">
-    <h1 className="text-xl font-bold mb-4">{name}</h1>
-    <hr className="my-4 border-gray-300" />
-    <button
-      className="flex items-center gap-2 py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      onClick={goToProfile}
-    >
-      <FaUser className="text-white" />
-      <p>Profilga kirish</p>
-    </button>
-    <button
-      className="flex items-center gap-2 py-2 px-4 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 mt-2"
-      onClick={handleLogout}
-    >
-      <FaUserSlash className="text-white" />
-      <p>Chiqish</p>
-    </button>
-  </div>
-</Modal>
-
-
-
+        className="modal_style"
+        open={openProfileModal}
+        onCancel={closeProfile}
+        footer={null}
+        closeIcon={
+          <IoClose
+            style={{
+              color: "#00F0FF",
+            }}
+          />
+        }
+      >
+        <div className="p-4">
+          <h1 className="text-xl font-bold mb-4">{name}</h1>
+          <hr className="my-4 border-gray-300" />
+          <button
+            className="flex items-center gap-2 py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            onClick={goToProfile}
+          >
+            <FaUser className="text-white" />
+            <p>Profilga kirish</p>
+          </button>
+          <button
+            className="flex items-center gap-2 py-2 px-4 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 mt-2"
+            onClick={handleLogout}
+          >
+            <FaUserSlash className="text-white" />
+            <p>Chiqish</p>
+          </button>
+        </div>
+      </Modal>
     </nav>
   );
 };
