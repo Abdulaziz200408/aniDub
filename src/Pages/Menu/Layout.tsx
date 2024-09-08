@@ -37,11 +37,13 @@ const Navbar = () => {
     const storedPhone = localStorage.getItem("phone");
     const storedPassword = localStorage.getItem("password");
 
-    if (storedName && storedPhone && storedPassword) {
+    if (storedName && storedPassword) {
       setName(storedName);
-      setPhone(storedPhone);
+      setPhone(storedPhone || "+998"); // Default value if phone is not present
       setPassword(storedPassword);
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, []);
 
@@ -58,17 +60,22 @@ const Navbar = () => {
         "Iltimos, barcha maydonlarni to'ldiring va ismingizni 4 harfdan ko'proq kiriting."
       );
     }
-    window.location.reload();
     setName("");
     setPhone("");
     setPassword("");
     setRepeatPassword("");
   };
 
-  const openSignUpModal = () => setOpenSignModal(true);
+  const openSignUpModal = () => {
+    navigate("/Login");
+  };
+
   const closeSignUpModal = () => setOpenSignModal(false);
 
-  const openProfile = () => setOpenProfileModal(true);
+  const openProfile = () => {
+    setOpenProfileModal(true);
+  };
+
   const closeProfile = () => setOpenProfileModal(false);
 
   const goToProfile = () => {
@@ -80,7 +87,7 @@ const Navbar = () => {
   const profilImg = localStorage.getItem("profileImg") || user;
 
   return (
-    <nav className="">
+    <nav>
       <div className="px-4">
         <div className="respons flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -185,128 +192,62 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Sign Up/Login Modal */}
-      <Modal
-        className="custom-modal"
-        open={openSignModal}
-        onCancel={closeSignUpModal}
-        footer={null}
-        closeIcon={
-          <IoClose
-            style={{
-              color: "#00F0FF",
-            }}
-          />
-        }
-      >
-        <div>
-          {/* modal header */}
-          <div className="modalHeader">
-            <h1
-              style={{
-                fontWeight: "bold",
-              }}
-            >
-              <span
-                style={{
-                  color: "#00F0FF",
-                }}
-              >
-                Ro’
-              </span>
-              yxatdan o’tish
-            </h1>
-          </div>
+ 
 
-          {/* modal body */}
-          <div className="modalBody">
-            <img
-              className=""
-              src="https://i.pinimg.com/736x/98/b2/d5/98b2d566669ba22380a40071cf06ce21.jpg"
-              alt=""
-            />
-          </div>
+{/* Profile Modal */}
+<Modal
+  className="custom-modal"
+  open={openProfileModal}
+  onCancel={closeProfile}
+  footer={null}
+  closeIcon={
+    <IoClose
+      style={{
+        color: "#00F0FF",
+      }}
+    />
+  }
+>
+  <div className="relative w-full h-full flex flex-col items-center p-6 bg-gray-900 rounded-lg overflow-hidden">
+    {/* Profile Background Image */}
+    <img
+      src={profilImg}
+      alt="Profile"
+      className="absolute inset-0 w-full h-full object-cover opacity-50"
+    />
+    
+    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+      <h1 className="text-2xl font-bold text-white mb-2">{name}</h1>
+      <p className="text-gray-300 mb-4">{phone}</p>
+      <div className="flex flex-col items-center space-y-2">
+        <Button
+          type="primary"
+          onClick={handleLogout}
+          style={{
+            backgroundColor: "#00F0FF",
+            border: "none",
+            width: "100%",
+          }}
+        >
+          Chiqish
+        </Button>
+        <Button
+          type="primary"
+          onClick={goToProfile}
+          style={{
+            backgroundColor: "#00F0FF",
+            border: "none",
+            width: "100%",
+          }}
+        >
+          Profilni o'zgartirish
+        </Button>
+      </div>
+    </div>
+  </div>
+</Modal>
 
-          {/* inputs */}
-          <div className="inputs">
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-300"
-              placeholder="Isminggizni kiriting...."
-            />
-            <input
-              type="tel"
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full p-2 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-300"
-            />
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-300"
-              placeholder="Parolni kiriting...."
-            />
-            <input
-              type="password"
-              id="repeatPassword"
-              value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
-              className="w-full p-2 mt-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-300"
-              placeholder="Parolni takrorlang..."
-            />
-          </div>
 
-          {/* action buttons */}
-          <div className="flex flex-col items-center">
-            <Button
-              onClick={handleSignUp}
-              className="bg-gradient-to-r w-full from-cyan-500 to-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-teal-600 transition-colors"
-            >
-              Ro’yxatdan o’tish
-            </Button>
-          </div>
-        </div>
-      </Modal>
-
-      {/* Profile Modal */}
-      <Modal
-        className="modal_style"
-        open={openProfileModal}
-        onCancel={closeProfile}
-        footer={null}
-        closeIcon={
-          <IoClose
-            style={{
-              color: "#00F0FF",
-            }}
-          />
-        }
-      >
-        <div className="p-4">
-          <h1 className="text-xl font-bold mb-4">{name}</h1>
-          <hr className="my-4 border-gray-300" />
-          <button
-            className="flex items-center gap-2 py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            onClick={goToProfile}
-          >
-            <FaUser className="text-white" />
-            <p>Profilga kirish</p>
-          </button>
-          <button
-            className="flex items-center gap-2 py-2 px-4 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 mt-2"
-            onClick={handleLogout}
-          >
-            <FaUserSlash className="text-white" />
-            <p>Chiqish</p>
-          </button>
-        </div>
-      </Modal>
     </nav>
   );
 };

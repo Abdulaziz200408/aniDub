@@ -1,3 +1,4 @@
+// Main.tsx
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Animation from './Pages/Animation/Animation';
@@ -8,24 +9,35 @@ import Navbar from './Pages/Menu/Layout'; // Ensure the path is correct
 import NewsCard from './Pages/newsCard/Newcard';
 import AnidubDashboard from './Pages/Dashbard/Dashboard';
 import Profil from './Pages/profil/profil';
+import Login from './Pages/Menu/login';
 
 const Main = () => {
   const location = useLocation();
   const isDashboard = location.pathname === '/dashboard';
   const isProfil = location.pathname === '/profil';
+  const isLogin = location.pathname === '/Login';
 
   return (
     <>
-      {!isDashboard && !isProfil && <Animation />}
-      {!isDashboard && !isProfil && <Filter />}
-      {!isDashboard && !isProfil && <NewsCard />}
-      {!isDashboard && !isProfil && <Cards />}
-      {!isDashboard && !isProfil && <Footer />}
+
+      {/* Main content */}
       <Routes>
         <Route path="/dashboard" element={<AnidubDashboard />} />
         <Route path="/profil" element={<Profil />} />
-        {/* Add more routes here */}
+        <Route path="/Login" element={<Login />} />
+        {/* Add additional routes here */}
       </Routes>
+
+      {/* Content hidden on dashboard, profile, and login */}
+      {!isDashboard && !isProfil && !isLogin && (
+        <>
+          <Animation />
+          <Filter />
+          <NewsCard />
+          <Cards />
+          <Footer />
+        </>
+      )}
     </>
   );
 };

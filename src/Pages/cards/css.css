@@ -7,11 +7,15 @@ img {
 .card {
   position: relative;
   overflow: hidden;
-  height: 290px;
+  height: 300px;
   border-radius: 0.5rem;
   background-color: #1a202cbe;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   transition: background 0.7s ease, transform 0.5s ease;
+}
+
+.margin{
+  margin-bottom: 10px;
 }
 
 .card img {
@@ -22,28 +26,59 @@ img {
   border-top-right-radius: 0.5rem;
   transition: transform 0.5s ease;
   cursor: pointer;
-  z-index: 1; /* Positive z-index */
-}
-h2{
-  max-width: 220px;
-  font-size: 16px;
 }
 
 .card-content {
-  padding: 1rem;
-  height: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 0;
+  height: 24%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: color 0.7s ease;
+  transition: height 0.5s ease, color 0.7s ease;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.5); /* Optional background for better readability */
-  color: white;
-  z-index: 2; /* Higher z-index to ensure it's above the image */
+  background: rgba(31, 28, 43, 0.642);
+  color: rgb(255, 255, 255) !important;
+  z-index: 2;
+  overflow: hidden;
 }
+
+.card:hover h2.title {
+  animation: rotateText 1.5s forwards;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: unset;
+}
+
+@keyframes rotateText {
+  from {
+    transform: translateX(100%) rotateY(-90deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.card-content h2.title {
+  display: inline-block;
+  font-size: 17px;
+  max-width: 25ch;
+  height: 25px;
+  line-height: 25px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: transform 0.5s ease-in-out;
+  transform-origin: right;
+}
+
 /* Heart icon */
 .card .icon {
   position: absolute;
@@ -71,6 +106,12 @@ h2{
   color: white;
 }
 
+.card:hover .card-content {
+  height: auto;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
+}
+
 .card:hover .money {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
@@ -93,64 +134,99 @@ h2{
   margin-top: 50px;
 }
 
-.card_subttile {
-  font-size: 14px;
-  color: #888;
-}
-
-
-.card_data{
-  width: 50px;
-  border-radius: 5px;
-  background: linear-gradient(to right, yellow, orange); 
-}
-
-@media (max-width: 480px) {
-  .card {
-    position: relative;
-    overflow: hidden;
-    width: 155px;
-    height: 220px;
-    border-radius: 0.5rem;
-    background-color: #1a202cbe;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    transition: background 0.7s ease, transform 0.5s ease;
-  }
-  
-  .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-    transition: transform 0.5s ease;
-    cursor: pointer;
-    z-index: 1; /* Positive z-index */
-  }
-
-  h2 {
-    max-width: 220px;
-    font-size: 13px !important;
-    overflow: hidden;
-    white-space: normal;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-height: 1.5em; /* Adjust this value based on your font size */
-    max-height: 20px; /* Should be 2 * line-height to ensure two lines are visible */
-}
-
-.card_subttile {
+.card_subtitle {
+  display: inline-block;
+  font-size: 16px;
+  max-width: 15ch;
+  height: 25px;
+  line-height: 25px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: inline-block;
-  max-width: 10ch;
-  max-width: 190px;
-  font-size: 10px;
-  color: #888;
 }
 
+.card_data {
+  width: 50px;
+  height: 25px;
+  border-radius: 5px;
+  background: linear-gradient(to right, yellow, orange);
+  font-size: 14px !important;
+}
 
+/* Responsive styles */
+@media (max-width: 490px) {
+
+  .card:hover .card-content {
+    height: 26%;
+    transition: 0.5s ease-in-out;
+  }
+  
+  .card {
+    width: 155px;
+    height: 220px;
+  }
+
+  .margin {
+    margin-top: -8px;
+  }
+
+  .card .icon {
+    font-size: 18px;
+  }
+
+  .money {
+    width: 60px !important;
+    height: 25px;
+    border-radius: 6px;
+    margin-top: 1px;
+  }
+
+  .money p {
+    font-size: 14px !important;
+  }
+
+  .card_subttile {
+    font-size: 12px;
+    max-width: 30ch; /* Limit to 10 characters */
+    height: 25px; /* Set to one line's height */
+    line-height: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflow text */
+    margin-left: 20px;
+  }
+
+  .card-content h2.title {
+    font-size: 13.5px;
+    max-width: 18ch; /* Limit to 10 characters */
+    line-height: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflow text */
+  }
+
+  .card-content {
+    height: 26%;
+    padding-top: 2px;
+    transition: color 0.7s ease;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.642); /* Optional background for better readability */
+    color: white !important;
+    z-index: 2;
+  }
+
+  .card img {
+    z-index: 1; /* Ensure image stays behind content */
+  }
+
+  .card:hover h2.title {
+    animation: none; /* Disable animation on hover */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 18ch; /* Harflar sonini 10 taga cheklash */
+  }
 }

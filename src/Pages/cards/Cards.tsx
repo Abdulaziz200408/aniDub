@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../cards/css.css";
+import { Pagination } from 'antd';
 
 interface CardData {
   id: number;
@@ -21,6 +22,8 @@ const Cards: React.FC = () => {
   const [cards, setCards] = useState<CardData[]>([]);
   const [liked, setLiked] = useState<{ [key: number]: boolean }>({});
   const [balans, setBalans] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize] = useState<number>(15);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,16 +86,25 @@ const Cards: React.FC = () => {
     }
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const currentCards = cards.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
-    <div className="container mx-auto mt-10 ">
+    <div className="container mx-auto mt-10">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {cards.map((item) => (
+        {currentCards.map((item) => (
           <div onClick={() => eyeCount(item.id)} key={item.id} className="card relative">
             <div
               className="absolute top-0 left-0 right-0 flex justify-between p-2"
               style={{ zIndex: 10 }}
             >
-              <button  className="card_data">{item.data}</button>
+              <button className="card_data">{item.data}</button>
               <FaHeart
                 onClick={(e) => {
                   e.stopPropagation();
@@ -112,17 +124,17 @@ const Cards: React.FC = () => {
             />
             <div className="card-content">
               <div>
-                <h2 className="text-lg font-semibold mb-2 ">
+                <h2 className="title">
                   {item.name}
                 </h2>
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between margin">
                   <div className="flex items-center gap-2">
                     <TbEye className="text-blue-500 text-lg" />
-                    <span className="text-gray-600 text-sm">{item.eye}</span>
+                    <span className="text-white text-sm">{item.eye}</span>
                   </div>
                   {item.isPaid ? (
                     <button onClick={() => paid(item.id)} className="money">
-                      Pullik
+                      <p>Pullik</p>
                     </button>
                   ) : (
                     <p className="card_subttile">{item.desc}</p>
@@ -133,16 +145,14 @@ const Cards: React.FC = () => {
           </div>
         ))}
       </div>
-    <div className=" flex justify-center mt-5">
-    <button  style={{
-      width: "150px",
-      backgroundColor: "#4CAF50",
-      color: "white",
-      padding: "10px 20px",
-      borderRadius: "5px",
-      cursor: "pointer"
-    }}>Yana yuklash</button>
-    </div>
+      <div className="flex justify-center mt-5">
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={cards.length}
+          onChange={handlePageChange}
+        />
+      </div>
       <div className="border"></div>
       <ToastContainer />
     </div>

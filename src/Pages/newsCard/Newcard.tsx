@@ -72,19 +72,6 @@ const NewsCard = () => {
     sliderRef.current!.setAttribute("data-touch-start", touchStartX.toString());
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!sliderRef.current) return;
-    const touchStartX = parseFloat(sliderRef.current.getAttribute("data-touch-start") || "0");
-    const touchCurrentX = e.touches[0].clientX;
-
-    if (touchStartX - touchCurrentX > 50) {
-      handleNext();
-      sliderRef.current.removeAttribute("data-touch-start");
-    } else if (touchStartX - touchCurrentX < -50) {
-      handlePrev();
-      sliderRef.current.removeAttribute("data-touch-start");
-    }
-  };
 
   const visibleSliderData = sliderData.slice(
     currentIndex,
@@ -102,7 +89,6 @@ const NewsCard = () => {
           ref={sliderRef}
           className="slider-container flex py-4 mt-4 overflow-x-auto"
           onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
         >
           {visibleSliderData.map((item) => (
             <div
@@ -110,31 +96,31 @@ const NewsCard = () => {
               className="slider-card relative mx-2 transition-transform duration-500 hover:scale-105 w-64"
             >
               <button className="podf">{item.data}</button>
-              <div className="shadow-lg overflow-hidden rounded-lg">
+              <div className="slider-img-container">
                 <img
                   src={item.img}
                   alt={item.name}
                   className="slider-img w-full h-72 object-cover rounded-t-lg cursor-pointer"
                 />
-                <div className="card-body-news p-4">
-                  <h2 className="text-lg font-semibold mt-3 truncate">
-                    {item.name}
-                  </h2>
-                  <div className="flex justify-between items-center mt-2">
-                    <div
-                      style={{
-                        gap: "70px",
-                      }}
-                      className="flex items-center"
-                    >
-                      <div className="flex items-center text-sm text-gray-500 ">
-                        <TbEye className="text-blue-500 mr-1" />
-                        <span>{item.eye}</span>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <SiGoogledisplayandvideo360 className="text-blue-500 mr-1" />
-                        <span>{item.new}</span>
-                      </div>
+              </div>
+              <div className="card-body-news p-4">
+                <h2 className="text-lg font-semibold mt-3 truncate">
+                  {item.name}
+                </h2>
+                <div className="flex justify-between items-center mt-2">
+                  <div
+                    style={{
+                      gap: "70px",
+                    }}
+                    className="flex items-center"
+                  >
+                    <div className="flex items-center text-sm text-gray-500 ">
+                      <TbEye className="text-blue-500 mr-1" />
+                      <span>{item.eye}</span>
+                    </div>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <SiGoogledisplayandvideo360 className="text-blue-500 mr-1" />
+                      <span>{item.new}</span>
                     </div>
                   </div>
                 </div>

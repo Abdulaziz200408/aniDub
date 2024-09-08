@@ -92,16 +92,18 @@ const Filter: React.FC = () => {
 
   return (
     <div className="container mx-auto mt-10 p-0">
+  <div className=' flex  justify-between flex-wrap gap-2'>
+  <div className=' flex flex-wrap gap-2'>
+      <button className="premium-glossy-button">Barcha anemelar</button>
+  <button onClick={() => setOpen(true)} className="premium-glossy-button">Chat</button>
+  <button className="premium-glossy-button">Edit</button>
+      </div>
       <div className="button-group">
-        <div className="flex items-center gap-3 flex-wrap">
-          <button className="filter-button">Hamma anemelar</button>
-          <button onClick={() => setOpen(true)} className="filter-button">Anime chat</button>
-          <button className="filter-button">Anime edit</button>
-        </div>
         <div>
-          <button className="filter-button">Barchasi</button>
+          <button className="premium-glossy-button">Barchasi</button>
         </div>
       </div>
+  </div>
       <Drawer
         placement="left"
         width={950}

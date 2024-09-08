@@ -3,12 +3,21 @@ import axios from "axios";
 import "tailwindcss/tailwind.css";
 import Navbar from "../Menu/Layout";
 import '../Animation/animation.css';
+import { Spin } from "antd";
 
 interface Slide {
   bacgroundImg: string;
   name: string;
   desc: string;
 }
+
+const contentStyle: React.CSSProperties = {
+  padding: 50,
+  background: 'rgba(0, 0, 0, 0.05)',
+  borderRadius: 4,
+};
+
+const content = <div style={contentStyle} />;
 
 const Animation: React.FC = () => {
   const [slides, setSlides] = useState<Slide[]>([]);
@@ -30,18 +39,20 @@ const Animation: React.FC = () => {
     if (slides.length > 0) {
       const interval = setInterval(() => {
         setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-      }, 5000);
+      }, 9000);
 
       return () => clearInterval(interval);
     }
   }, [slides]);
 
   if (slides.length === 0) {
-    return <div className="text-center text-white">Yuklanmoqda...</div>;
+    return <div className="text-center text-white">
+      <Spin tip="Loading">{content}</Spin>
+    </div>;
   }
 
   return (
-    <div className="relative w-full h-[40vh] md:h-[77vh] overflow-hidden">
+    <div className="relative w-full h-[40vh] md:h-[60vh] lg:h-[77vh] overflow-hidden">
       <div className="absolute top-0 left-0 w-full z-10">
         <Navbar />
       </div>
@@ -53,7 +64,7 @@ const Animation: React.FC = () => {
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* Background image ustiga qo'shimcha qorong'ilik effekti */}
+          {/* Background image with additional darkness effect */}
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
@@ -62,28 +73,24 @@ const Animation: React.FC = () => {
             }}
           ></div>
 
-          {/* Qorong'ilik effekti qo'shilgan overlay */}
+          {/* Darkness overlay effect */}
           <div
-            className="absolute inset-0 bg-black opacity-50"
+            className="absolute inset-0 bg-black opacity-40"
             style={{ zIndex: "-1" }}
           ></div>
 
-          <div className="absolute flex items-center mt-20 justify-around w-full">
-            <div className="p-4 md:p-8 text-center md:text-left text-white max-w-md md:max-w-xl">
-              <h1 className="text-xl md:text-4xl font-bold">{slide.name}</h1>
-              <p className="mt-2 subttile md:mt-4 text-sm md:text-lg">{slide.desc}</p>
-              <button className="mt-4 md:mt-6 px-4 py-2 md:px-6 md:py-3 bg-blue-600 text-white rounded-lg">
-                Ko'rish
-              </button>
+<div className=" media">
+            <div className=" widdf">
+              <h3 className="titfd">{slide.name}</h3>
+              <hr />
+              <p className="mt-2 subttile ">{slide.desc}</p>
+              <button className="mt-4 premium-button">
+  Ko'rish
+</button>
+
             </div>
 
-            <div className="mt-4 md:mt-0 relative w-24 h-24 md:w-40 md:h-40 lg:w-56 lg:h-56">
-              <img
-                src={slide.bacgroundImg}
-                alt={slide.name}
-                className="w-full h-full object-cover rounded-sm shadow-lg"
-              />
-            </div>
+            
           </div>
         </div>
       ))}
