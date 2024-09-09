@@ -85,9 +85,13 @@ const NewsCard = () => {
         <div className="flex items-center justify-between"></div>
         <div className="border"></div>
         {/* Slider */}
+
+        <div className=" mt-5">
+          <h1 className="borderTitle">Kutilaytgan animelar</h1>
+        </div>
         <div
           ref={sliderRef}
-          className="slider-container flex py-4 mt-4 overflow-x-auto"
+          className="slider-container flex py-4 mt-1 overflow-x-auto"
           onTouchStart={handleTouchStart}
         >
           {visibleSliderData.map((item) => (
@@ -128,12 +132,7 @@ const NewsCard = () => {
             </div>
           ))}
         </div>
-        <div
-          style={{
-            marginTop: "5px",
-          }}
-          className="border"
-        ></div>
+     
       </div>
     </div>
   );

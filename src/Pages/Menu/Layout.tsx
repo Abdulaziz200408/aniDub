@@ -11,7 +11,13 @@ import { RiSearchLine } from "react-icons/ri";
 import { Modal, Button } from "antd";
 import { IoClose } from "react-icons/io5";
 
-const Navbar = () => {
+interface SearchResult {
+  id: number;
+  name: string;
+  img: string;
+}
+
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openSignModal, setOpenSignModal] = useState(false);
   const [phone, setPhone] = useState("+998");
@@ -20,6 +26,9 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const [name, setName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -86,25 +95,112 @@ const Navbar = () => {
   // Get profile image from localStorage or fallback to default logo
   const profilImg = localStorage.getItem("profileImg") || user;
 
+  const handleSearchClick = () => {
+    setShowSearch(!showSearch);
+  };
+
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+
+    if (e.target.value) {
+      try {
+        const response = await fetch(
+          `https://6d548820c3f18dbd.mokky.dev/Cards?name=*${e.target.value}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch search results");
+        }
+        const data: SearchResult[] = await response.json();
+        setSearchResults(data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        setSearchResults([]); // Clear results on error
+      }
+    } else {
+      setSearchResults([]);
+    }
+  };
+
   return (
-    <nav>
+    <nav style={{
+      position:"fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      zIndex: 999,
+    }} className="naveh">
       <div className="px-4">
         <div className="respons flex justify-between items-center h-16">
-          <div className="flex items-center">
+          <div className="flex items-center gap-6">
             <img
               onClick={() => navigate("/Menu")}
               className="w-32 cursor-pointer"
-              src={logo} // Use local logo image
+              src={logo}
               alt="Logo"
             />
+           <div  className=" hrefTitle flex items-center gap-10 font-medium">
+           <h3>Anime</h3>
+            <h3>Film</h3>
+            <h3>Drama</h3>
+            <h3>Komediya</h3>
+            <h3>Maktab</h3>
+            <h3>Fantastika</h3>
+           </div>
           </div>
           <div className="hidden md:flex items-center space-x-4">
             <div className="relative flex gap-10 items-center">
               <RiSearchLine
                 className="text-teal-500 text-2xl cursor-pointer transition-transform hover:scale-105"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleSearchClick}
               />
+              {showSearch && (
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Search..."
+                  className="search-input"
+                />
+              )}
             </div>
+            {searchTerm && searchResults.length > 0 && (
+              <div
+                className="seachContainer overflow-y-auto"
+                style={{
+                  width: "200px",
+                  height: "300px",
+                  backgroundColor: "#1e1e1e",
+                  overflowY: "scroll",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#00F0FF #1e1e1e",
+                }}
+              >
+                {searchResults.map((result) => (
+                <div key={result.id} className="flex items-center p-2 gap-2">
+                <div
+                  style={{
+                    width: "60px", // Set a fixed width
+                    height: "60px", // Set a fixed height
+                    cursor: "pointer"
+                  }}
+                >
+                  <img
+                    style={{
+                      width: "100%", // Ensure the image scales to the container width
+                      height: "100%", // Ensure the image scales to the container height
+                      overflow:"hidden",
+                      borderRadius:"10px"
+                    }}
+                    src={result.img}
+                    alt={result.name}
+                  />
+                </div>
+                <span className="text-white">{result.name}</span>
+              </div>
+              
+                ))}
+              </div>
+            )}
             {!isLoggedIn ? (
               <button
                 style={{
@@ -121,14 +217,11 @@ const Navbar = () => {
                 <TbLogin2 className="text-xl" />
               </button>
             ) : (
-              <button
-                onClick={openProfile}
-                className="flex profilButton"
-              >
+              <button onClick={openProfile} className="flex profilButton">
                 <img
                   style={{
-                    width: "50px",
-                    height: "50px",
+                    width: "45px",
+                    height: "45px",
                     borderRadius: "50%",
                     objectFit: "cover",
                     marginLeft: "10px",
@@ -161,93 +254,82 @@ const Navbar = () => {
         }`}
         style={{ transition: "transform 0.3s ease-out" }}
       >
-        <div className="p-4">
-          {!isLoggedIn ? (
-            <button
-              className="w-full px-4 py-2 text-white shadow-lg hover:bg-teal-600 transition-colors relative overflow-hidden"
-              onClick={openSignUpModal}
-              style={{
-                backgroundImage: `url('https://i.pinimg.com/originals/ab/39/43/ab394303fe32175912ee20eae0e23cc5.gif')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                borderRadius: "30px",
-              }}
-            >
-              <div className="absolute inset-0 transition-transform transform scale-100 hover:scale-110" />
-              Kirish
-            </button>
-          ) : (
-            <button
-              onClick={openProfile}
-              className="w-full px-4 py-2 text-teal-500 bg-gray-100 rounded-lg shadow-lg hover:bg-gray-200 transition-colors"
-            >
-              <img
-                className="w-5 h-5 inline-block mr-2"
-                src={profilImg}
-                alt="Profile"
-              />
-              Profil
-            </button>
-          )}
-        </div>
-      </div>
-
- 
-
-{/* Profile Modal */}
-<Modal
-  className="custom-modal"
-  open={openProfileModal}
-  onCancel={closeProfile}
-  footer={null}
-  closeIcon={
-    <IoClose
-      style={{
-        color: "#00F0FF",
-      }}
-    />
-  }
->
-  <div className="relative w-full h-full flex flex-col items-center p-6 bg-gray-900 rounded-lg overflow-hidden">
-    {/* Profile Background Image */}
-    <img
-      src={profilImg}
-      alt="Profile"
-      className="absolute inset-0 w-full h-full object-cover opacity-50"
-    />
-    
-    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
-      <h1 className="text-2xl font-bold text-white mb-2">{name}</h1>
-      <p className="text-gray-300 mb-4">{phone}</p>
-      <div className="flex flex-col items-center space-y-2">
-        <Button
-          type="primary"
-          onClick={handleLogout}
-          style={{
-            backgroundColor: "#00F0FF",
-            border: "none",
-            width: "100%",
-          }}
-        >
-          Chiqish
-        </Button>
-        <Button
-          type="primary"
-          onClick={goToProfile}
-          style={{
-            backgroundColor: "#00F0FF",
-            border: "none",
-            width: "100%",
-          }}
-        >
-          Profilni o'zgartirish
-        </Button>
-      </div>
-    </div>
+    <div className="p-4 greysil">
+  <div className="greysil-content">
+    {!isLoggedIn ? (
+      <button
+        className="w-full px-4 py-2 text-white shadow-lg hover:bg-teal-600 transition-colors relative overflow-hidden"
+        onClick={openSignUpModal}
+        style={{
+          backgroundImage: `url('https://i.pinimg.com/originals/ab/39/43/ab394303fe32175912ee20eae0e23cc5.gif')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: "30px",
+        }}
+      >
+        <div className="absolute inset-0 transition-transform transform scale-100 hover:scale-110" />
+        Kirish
+      </button>
+    ) : (
+      <div>
+      <img
+       src={user}
+       alt="user"
+       className="w-6 h-6 ml-2 rounded-full object-cover"
+     />
+   </div>
+    )}
   </div>
-</Modal>
+</div>
 
+      </div>
 
+      {/* Profile Modal */}
+      <Modal
+        className="custom-modal"
+        open={openProfileModal}
+        onCancel={closeProfile}
+        footer={null}
+        closeIcon={<IoClose style={{ color: "#00F0FF" }} />}
+      >
+        <div className="relative w-full h-full flex flex-col items-center p-6 bg-gray-900 rounded-lg overflow-hidden">
+          {/* Profile Background Image */}
+          <img
+            src={profilImg}
+            alt="Profile"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+
+          <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+            <h1 className="text-2xl font-bold text-white mb-2">{name}</h1>
+            <p className="text-gray-300 mb-4">{phone}</p>
+            <div className="flex flex-col items-center space-y-2">
+              <Button
+                type="primary"
+                onClick={handleLogout}
+                style={{
+                  backgroundColor: "#00F0FF",
+                  border: "none",
+                  width: "100%",
+                }}
+              >
+                Chiqish
+              </Button>
+              <Button
+                type="primary"
+                onClick={goToProfile}
+                style={{
+                  backgroundColor: "#00F0FF",
+                  border: "none",
+                  width: "100%",
+                }}
+              >
+                Profilni o'zgartirish
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </nav>
   );
 };

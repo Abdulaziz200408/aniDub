@@ -96,8 +96,12 @@ const Cards: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto mt-10">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div className="container mx-auto mt-4">
+       <div className=" ms-2">
+          <h1 className="borderTitle">Top-100</h1>
+        </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-4">
+     
         {currentCards.map((item) => (
           <div onClick={() => eyeCount(item.id)} key={item.id} className="card relative">
             <div
@@ -145,7 +149,7 @@ const Cards: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-center mt-10">
         <Pagination
           current={currentPage}
           pageSize={pageSize}
@@ -153,7 +157,6 @@ const Cards: React.FC = () => {
           onChange={handlePageChange}
         />
       </div>
-      <div className="border"></div>
       <ToastContainer />
     </div>
   );

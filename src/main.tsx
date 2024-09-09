@@ -10,6 +10,7 @@ import NewsCard from './Pages/newsCard/Newcard';
 import AnidubDashboard from './Pages/Dashbard/Dashboard';
 import Profil from './Pages/profil/profil';
 import Login from './Pages/Menu/login';
+import Janr from './Pages/janr/Janr';
 
 const Main = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const Main = () => {
           <Animation />
           <Filter />
           <NewsCard />
+          <Janr/>
           <Cards />
           <Footer />
         </>

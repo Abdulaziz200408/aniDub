@@ -9,6 +9,7 @@ interface Slide {
   bacgroundImg: string;
   name: string;
   desc: string;
+  date: string;
 }
 
 const contentStyle: React.CSSProperties = {
@@ -79,14 +80,27 @@ const Animation: React.FC = () => {
             style={{ zIndex: "-1" }}
           ></div>
 
+             {/* Box shadow at the bottom of the slide */}
+             <div className="gradient-shadow"></div>
+
 <div className=" media">
             <div className=" widdf">
+          <div className=" flex gap-2">
+          <button className="mt-4 title_button">
+  Anime
+</button>
+
+<button className="mt-4 title_button1">
+  {slide.date}
+</button>
+<button className="mt-4 title_button1">
+  10-12
+</button>
+          </div>
               <h3 className="titfd">{slide.name}</h3>
               <hr />
               <p className="mt-2 subttile ">{slide.desc}</p>
-              <button className="mt-4 premium-button">
-  Ko'rish
-</button>
+
 
             </div>
 

@@ -38,14 +38,18 @@ const Login: React.FC = () => {
         <Navbar />
       </div>
 
-      <div className="flex h-full">
+      <div 
+      style={{
+        height: '100vh',
+      }}
+      className="flex w-full">
         <div
           style={{
-            width: "64%",
-            height: "100vh",
+            width: "80%",
+            height:"100vh",
             backgroundImage: `url(${videoGif})`,
             backgroundPosition: "center",
-            backgroundSize: "cover",
+            backgroundSize: "120% 99%",
             backgroundRepeat: "no-repeat",
             imageRendering: "auto",
           }}
@@ -54,7 +58,7 @@ const Login: React.FC = () => {
         </div>
 
         <div className="flex-1 flex items-center justify-center bg-gray-900" style={{ flexBasis: '36%' }}>
-          <div style={{ width: "460px" }} className="bg-gray-800 p-8 rounded-lg shadow-lg w-full ">
+          <div style={{ width: "400px" }} className=" rounded-lg  w-full ">
             <h2 className="text-white text-2xl font-bold mb-4">aniDub-ga kirish</h2>
             <form>
               <div className="mb-4">
