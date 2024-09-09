@@ -122,32 +122,42 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav style={{
-      position:"fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      zIndex: 999,
-    }} className="naveh">
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 999,
+      }}
+      className="naveh"
+    >
       <div className="px-4">
         <div className="respons flex justify-between items-center h-16">
           <div className="flex items-center gap-6">
             <img
               onClick={() => navigate("/Menu")}
-              className="w-32 cursor-pointer"
+              className="w-32 cursor-pointer logo"
               src={logo}
               alt="Logo"
             />
-           <div  className=" hrefTitle flex items-center gap-10 font-medium">
-           <h3>Anime</h3>
-            <h3>Film</h3>
-            <h3>Drama</h3>
-            <h3>Komediya</h3>
-            <h3>Maktab</h3>
-            <h3>Fantastika</h3>
-           </div>
           </div>
           <div className="hidden md:flex items-center space-x-4">
+            <div
+              className=" flex items-center gap-10 best"
+              style={{
+                position: "absolute",
+                top: "22px",
+                left: "160px",
+              }}
+            >
+              <h3>Anime</h3>
+              <h3>Film</h3>
+              <h3>Drama</h3>
+              <h3>Komediya</h3>
+              <h3>Maktab</h3>
+            </div>
+            <div className=" hrefTitle flex items-center gap-10 font-medium "></div>
             <div className="relative flex gap-10 items-center">
               <RiSearchLine
                 className="text-teal-500 text-2xl cursor-pointer transition-transform hover:scale-105"
@@ -176,28 +186,27 @@ const Navbar: React.FC = () => {
                 }}
               >
                 {searchResults.map((result) => (
-                <div key={result.id} className="flex items-center p-2 gap-2">
-                <div
-                  style={{
-                    width: "60px", // Set a fixed width
-                    height: "60px", // Set a fixed height
-                    cursor: "pointer"
-                  }}
-                >
-                  <img
-                    style={{
-                      width: "100%", // Ensure the image scales to the container width
-                      height: "100%", // Ensure the image scales to the container height
-                      overflow:"hidden",
-                      borderRadius:"10px"
-                    }}
-                    src={result.img}
-                    alt={result.name}
-                  />
-                </div>
-                <span className="text-white">{result.name}</span>
-              </div>
-              
+                  <div key={result.id} className="flex items-center p-2 gap-2">
+                    <div
+                      style={{
+                        width: "60px", // Set a fixed width
+                        height: "60px", // Set a fixed height
+                        cursor: "pointer",
+                      }}
+                    >
+                      <img
+                        style={{
+                          width: "100%", // Ensure the image scales to the container width
+                          height: "100%", // Ensure the image scales to the container height
+                          overflow: "hidden",
+                          borderRadius: "10px",
+                        }}
+                        src={result.img}
+                        alt={result.name}
+                      />
+                    </div>
+                    <span className="text-white">{result.name}</span>
+                  </div>
                 ))}
               </div>
             )}
@@ -254,34 +263,89 @@ const Navbar: React.FC = () => {
         }`}
         style={{ transition: "transform 0.3s ease-out" }}
       >
-    <div className="p-4 greysil">
-  <div className="greysil-content">
-    {!isLoggedIn ? (
-      <button
-        className="w-full px-4 py-2 text-white shadow-lg hover:bg-teal-600 transition-colors relative overflow-hidden"
-        onClick={openSignUpModal}
-        style={{
-          backgroundImage: `url('https://i.pinimg.com/originals/ab/39/43/ab394303fe32175912ee20eae0e23cc5.gif')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderRadius: "30px",
-        }}
-      >
-        <div className="absolute inset-0 transition-transform transform scale-100 hover:scale-110" />
-        Kirish
-      </button>
-    ) : (
-      <div>
-      <img
-       src={user}
-       alt="user"
-       className="w-6 h-6 ml-2 rounded-full object-cover"
-     />
-   </div>
-    )}
-  </div>
-</div>
-
+        <div className="p-4 greysil">
+          <div className="greysil-content">
+            <div className="relative flex gap-10 items-center">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Search..."
+                className="search-input"
+                style={{
+                  marginBottom: "20px",
+                }}
+              />
+            </div>
+            {searchTerm && searchResults.length > 0 && (
+              <div
+                className="seachContainer overflow-y-auto"
+                style={{
+                  width: "200px",
+                  height: "300px",
+                  backgroundColor: "#1e1e1e",
+                  overflowY: "scroll",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#00F0FF #1e1e1e",
+                }}
+              >
+                {searchResults.map((result) => (
+                  <div key={result.id} className="flex items-center p-2 gap-2">
+                    <div
+                      style={{
+                        width: "60px", // Set a fixed width
+                        height: "60px", // Set a fixed height
+                        cursor: "pointer",
+                      }}
+                    >
+                      <img
+                        style={{
+                          width: "100%", // Ensure the image scales to the container width
+                          height: "100%", // Ensure the image scales to the container height
+                          overflow: "hidden",
+                          borderRadius: "10px",
+                        }}
+                        src={result.img}
+                        alt={result.name}
+                      />
+                    </div>
+                    <span className="text-white">{result.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {!isLoggedIn ? (
+              <button
+                style={{
+                  backgroundImage: `url('https://i.pinimg.com/originals/ab/39/43/ab394303fe32175912ee20eae0e23cc5.gif')`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderRadius: "20px",
+                  width: "140px",
+                }}
+                onClick={openSignUpModal}
+                className="flex items-center justify-center gap-2 px-4 py-2 text-white bg-teal-500 rounded-lg shadow-lg hover:bg-teal-600 transition-colors"
+              >
+                Kirish
+                <TbLogin2 className="text-xl" />
+              </button>
+            ) : (
+              <button onClick={openProfile} className="flex profilButton">
+                <img
+                  style={{
+                    width: "45px",
+                    height: "45px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    marginLeft: "10px",
+                  }}
+                  src={profilImg}
+                  alt="Profile"
+                />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Profile Modal */}

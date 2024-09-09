@@ -10,7 +10,7 @@ nav {
   justify-content: space-between;
 }
 
-.seachContainer{
+.seachContainer {
   position: absolute;
   width: 260px !important;
   top: 73px;
@@ -26,14 +26,16 @@ nav {
   border-radius: 18px;
   background-color: #fff;
   color: #000;
-  box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.2), 0px 8px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.2),
+    0px 8px 15px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   border: none;
   outline: none;
 }
 
 .search-input:focus {
-  box-shadow: inset 0px 6px 8px rgba(0, 0, 0, 0.3), 0px 10px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0px 6px 8px rgba(0, 0, 0, 0.3),
+    0px 10px 20px rgba(0, 0, 0, 0.4);
   transform: scale(1.02);
 }
 .custom-modal {
@@ -45,7 +47,6 @@ nav {
   right: 20px;
   padding: 20px;
   transition: all 0.3s ease;
-  
 }
 
 .custom-modal .ant-modal-content {
@@ -54,7 +55,7 @@ nav {
 }
 
 .custom-modal .ant-modal-close-x {
-  color: #00F0FF;
+  color: #00f0ff;
 }
 
 .custom-modal .ant-modal-header {
@@ -94,8 +95,6 @@ nav {
   transition: opacity 0.3s ease;
 }
 
-
-
 .inputs input {
   margin-bottom: 10px;
 }
@@ -113,7 +112,12 @@ nav {
 
 /* Dropdown Menu */
 .greysil {
-  background-color: rgba(0, 0, 0, 0.614); /* Semi-transparent background color */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.614
+  ); /* Semi-transparent background color */
   height: 100%;
   width: 250px;
   position: fixed;
@@ -124,7 +128,6 @@ nav {
   /* You might also want to set a background color to blend with the blur effect */
   background-color: rgba(0, 0, 0, 0.4); /* Adjust the rgba value as needed */
 }
-
 
 .greysil::before {
   content: "";
@@ -143,19 +146,27 @@ nav {
   z-index: 1; /* Ensure content is above the blurred background */
 }
 
-
-
-
-.hrefTitle h3{
-cursor: pointer;
-  color: #b2b0b0;
+.best h3 {
+  cursor: pointer;
+  color: #eae5e5;
 }
-.hrefTitle h3:hover{
+.best h3:hover {
   color: #f15080;
-  transition:0.3s linear;
+  transition: 0.3s linear;
 }
 
-
-.naveh{
+.naveh {
   background-color: #00000051;
+  width: 100% !important;
+}
+
+@media screen and (max-width: 567px) {
+  .logo {
+    width: 100px !important;
+  }
+
+  .naveh {
+    background-color: #00000000;
+    width: 100% !important;
+  }
 }

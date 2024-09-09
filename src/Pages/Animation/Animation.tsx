@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "tailwindcss/tailwind.css";
 import Navbar from "../Menu/Layout";
-import '../Animation/animation.css';
+import './animation.css';
 import { Spin } from "antd";
 
 interface Slide {

@@ -3,6 +3,8 @@ import axios from "axios";
 import "../janr/janr.css";
 import { message } from "antd";
 import "../../App.css";
+import allCategory from "./allCategory";
+import { useNavigate } from "react-router-dom";
 
 interface SliderItem {
   id: number;
@@ -21,6 +23,7 @@ const Janr = () => {
   const startX = useRef<number>(0);
   const scrollLeft = useRef<number>(0);
   const isDragging = useRef<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -97,6 +100,10 @@ const Janr = () => {
     }
   };
 
+  const allCategor = () => {
+    navigate("/allCategory");
+  };
+
   return (
     <div className="news-card-container flex justify-center">
       <div className="container">
@@ -115,14 +122,14 @@ const Janr = () => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {sliderData.map((item) => (
+          <div className=" flex gap-2 items-center">
             <div
-              key={item.id}
+              onClick={allCategor}
               className="cardfg relative mx-2 transition-transform duration-500 hover:scale-105"
             >
               <div
                 style={{
-                  backgroundImage: `url(${item.img})`,
+                  backgroundImage: `url("https://i.pinimg.com/736x/4b/b8/e9/4bb8e931640dcff50f8e670c86919e1b.jpg")`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   height: "270px",
@@ -130,11 +137,31 @@ const Janr = () => {
                 }}
                 className="imgh relative flex items-center justify-center"
               >
-                <h2 className="nest text-center">{item.name}</h2>
+                <h2 className="nest text-center">Barcha categoryalar</h2>
                 <div className="overlay absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent transition-opacity duration-500 hover:opacity-0"></div>
               </div>
             </div>
-          ))}
+            {sliderData.map((item) => (
+              <div
+                key={item.id}
+                className="cardfg relative mx-2 transition-transform duration-500 hover:scale-105"
+              >
+                <div
+                  style={{
+                    backgroundImage: `url(${item.img})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    height: "270px",
+                    borderRadius: "10px",
+                  }}
+                  className="imgh relative flex items-center justify-center"
+                >
+                  <h2 className="nest text-center">{item.name}</h2>
+                  <div className="overlay absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent transition-opacity duration-500 hover:opacity-0"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
