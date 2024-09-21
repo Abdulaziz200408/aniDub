@@ -41,7 +41,7 @@ const Filter: React.FC = () => {
   useEffect(() => {
     const fetchMessages = () => {
       axios
-        .get("https://7dcbce21f2149e98.mokky.dev/api")
+        .get("https://c0adcbfd27d5ecc2.mokky.dev/ews")
         .then((response) => {
           setdatamessage(response.data);
         })
@@ -76,7 +76,7 @@ const Filter: React.FC = () => {
       };
 
       axios
-        .post("https://7dcbce21f2149e98.mokky.dev/api", newMessage)
+        .post("https://c0adcbfd27d5ecc2.mokky.dev/ews", newMessage)
         .then((response) => {
           setdatamessage([
             ...datamessage,
